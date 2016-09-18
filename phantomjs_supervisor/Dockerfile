@@ -1,7 +1,7 @@
 FROM ubuntu
 
-ENTRYPOINT ["phantomjs"]
-CMD ["index.js"]
+ENTRYPOINT ["supervisord", "-c"]
+CMD ["./supervisord.conf"]
 
 ENV USER="worker" \
     WORKDIR="/workdir" \
@@ -24,6 +24,8 @@ RUN apt-get update \
  && apt-get clean all
 
 WORKDIR ${WORKDIR}
+
+ADD supervisord.conf ./
 
 ONBUILD ADD . ./
 
