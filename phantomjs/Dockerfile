@@ -1,5 +1,7 @@
 FROM ubuntu
 
+ENTRYPOINT ["phantomjs"]
+
 ENV USER="worker" \
     WORKDIR="/workdir" \
     PHANTOMJS_VERSION="2.1.1"
@@ -22,6 +24,9 @@ RUN apt-get update \
 
 WORKDIR ${WORKDIR}
 
-#USER ${USER}
+ONBUILD ADD . ./
 
-ENTRYPOINT ["phantomjs"]
+ONBUILD RUN chown -R ${USER}:${USER} ./ \
+         && chmod u=rwX,go= -R ./
+
+ONBUILD USER ${USER}
