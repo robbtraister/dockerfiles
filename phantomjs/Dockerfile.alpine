@@ -1,0 +1,22 @@
+FROM alpine
+
+ENV USER="worker" \
+    WORKDIR="/workdir" \
+    PHANTOMJS_VERSION="2.1.1"
+
+RUN apk update \
+ && apk upgrade \
+ && apk add --update --no-cache \
+                    bzip2 \
+                    fontconfig \
+                    freetype \
+                    wget \
+ && wget -q --no-check-certificate -O /phantomjs.tar.bz2 https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-$PHANTOMJS_VERSION-linux-x86_64.tar.bz2 \
+ && mkdir -p /usr/local/phantomjs \
+ && tar -xjf /phantomjs.tar.bz2 -C /usr/local/phantomjs \
+ && rm -f /phantomjs.tar.bz2 \
+ && ln -s /usr/local/phantomjs/phantomjs-$PHANTOMJS_VERSION-linux-x86_64/bin/phantomjs /usr/bin/phantomjs
+
+WORKDIR ${WORKDIR}
+
+#USER ${USER}
