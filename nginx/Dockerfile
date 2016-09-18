@@ -1,13 +1,7 @@
 FROM robbtraister/base
 
 ENTRYPOINT ["nginx", "-p", "./", "-c"]
-CMD [ \
-      "./nginx.conf", \
-      "-g", " \
-            daemon off; \
-            pid ./nginx.pid; \
-            " \
-    ]
+CMD ["./nginx.conf", "-g", "daemon off; pid ./nginx.pid;"]
 
 RUN apk add --update --no-cache \
             nginx \

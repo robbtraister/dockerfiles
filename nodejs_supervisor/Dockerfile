@@ -7,6 +7,8 @@ RUN apk add --update --no-cache \
             nodejs \
             supervisor \
  && rm -rf /var/cache/apk/*
+ 
+ADD supervisord.conf ./
 
 ONBUILD ADD ./package.json ./
 ONBUILD RUN npm install --production \
