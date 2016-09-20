@@ -1,0 +1,45 @@
+FROM robbtraister/debian-phantomjs
+
+RUN apt-get update \
+    && apt-get install -y \
+                       python-pip \
+                       curl \
+                       rsync \
+                       xfonts-base \
+                       #ttf-mscorefonts-installer \
+    && apt-get clean \
+    && apt-get autoremove \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN mkdir -p /tmp/dockerize \
+    && curl -L https://github.com/larsks/dockerize/archive/84303318e70d4550334abadad2052a2415b06127.tar.gz \
+       | tar xvz -C /tmp/dockerize --strip-components=1 \
+    && cd /tmp/dockerize \
+    && pip install .
+
+
+WORKDIR /workspace
+
+RUN rm -rf dockerized-phantomjs/ \
+
+&&  dockerize -n -o dockerized-phantomjs \
+              -e $(which phantomjs) \
+              -a /bin/dash /bin/sh \
+              -a /etc/fonts /etc  \
+              -a /etc/ssl /etc  \
+              -a /usr/share/fonts /usr/share  \
+              --verbose \
+              $(which phantomjs) \
+              /usr/bin/curl \
+
+&&  rm dockerized-phantomjs/Dockerfile
+
+RUN ( \
+      cd dockerized-phantomjs/ \
+&&    tar --numeric-owner -zcf ../phantomjs.tar.gz * \
+    )
+RUN chown $(stat -c %u .):$(stat -c %g .) phantomjs.tar.gz
+
+VOLUME /target
+
+ENTRYPOINT cp /workspace/phantomjs.tar.gz /target/
