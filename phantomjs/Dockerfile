@@ -1,6 +1,4 @@
-FROM robbtraister/base
-
-ADD phantomjs.tar.gz /
+FROM robbtraister/phantomjs-base
 
 ENTRYPOINT ["phantomjs"]
 ONBUILD CMD ["index.js"]
