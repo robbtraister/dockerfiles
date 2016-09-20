@@ -18,11 +18,11 @@ RUN mkdir -p /tmp/dockerize \
     && pip install .
 
 
-WORKDIR /workspace
+RUN rm -rf /dockerized-phantomjs
 
-RUN rm -rf dockerized-phantomjs/
+WORKDIR /dockerized-phantomjs
 
-RUN dockerize -n -o dockerized-phantomjs \
+RUN dockerize -n -o ./ \
               -e $(which phantomjs) \
               -a /etc/fonts /etc  \
               -a /etc/ssl /etc  \
@@ -31,16 +31,13 @@ RUN dockerize -n -o dockerized-phantomjs \
               $(which phantomjs) \
               /usr/bin/curl
 
-RUN ( \
-      cd dockerized-phantomjs/ \
- &&   rm -rf \
-             Dockerfile \
-             etc/group \
-             etc/nsswitch.conf \
-             etc/passwd \
- &&   tar --numeric-owner -zcf ../phantomjs.tar.gz * \
-    )
+RUN rm -rf \
+           Dockerfile \
+           etc/group \
+           etc/nsswitch.conf \
+           etc/passwd \
+ && tar --numeric-owner -zcf /phantomjs.tar.gz *
 
 VOLUME /target
 
-ENTRYPOINT cp /workspace/phantomjs.tar.gz /target/
+ENTRYPOINT cp /phantomjs.tar.gz /target/
