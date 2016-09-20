@@ -20,25 +20,26 @@ RUN mkdir -p /tmp/dockerize \
 
 WORKDIR /workspace
 
-RUN rm -rf dockerized-phantomjs/ \
+RUN rm -rf dockerized-phantomjs/
 
-&&  dockerize -n -o dockerized-phantomjs \
+RUN dockerize -n -o dockerized-phantomjs \
               -e $(which phantomjs) \
-              -a /bin/dash /bin/sh \
               -a /etc/fonts /etc  \
               -a /etc/ssl /etc  \
               -a /usr/share/fonts /usr/share  \
               --verbose \
               $(which phantomjs) \
-              /usr/bin/curl \
-
-&&  rm dockerized-phantomjs/Dockerfile
+              /usr/bin/curl
 
 RUN ( \
       cd dockerized-phantomjs/ \
-&&    tar --numeric-owner -zcf ../phantomjs.tar.gz * \
+ &&   rm -rf \
+             Dockerfile \
+             etc/group \
+             etc/nsswitch.conf \
+             etc/passwd \
+ &&   tar --numeric-owner -zcf ../phantomjs.tar.gz * \
     )
-RUN chown $(stat -c %u .):$(stat -c %g .) phantomjs.tar.gz
 
 VOLUME /target
 
