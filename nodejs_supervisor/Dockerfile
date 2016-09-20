@@ -3,7 +3,9 @@ FROM robbtraister/base
 RUN apk add --update --no-cache \
             nodejs \
             supervisor \
- && rm -rf /var/cache/apk/*
+ && rm -rf /var/cache/apk/* \
+ && node -v \
+ && supervisord -v
 
 ADD supervisord.conf ./
 

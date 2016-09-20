@@ -3,6 +3,7 @@ FROM robbtraister/base
 RUN apk add --update --no-cache \
             nginx \
  && rm -rf /var/cache/apk/* \
+ && nginx -v \
  && mkdir -p \
           ./cache \
           ./logs \

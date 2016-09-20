@@ -4,6 +4,8 @@ RUN apk add --update --no-cache \
             nginx \
             supervisor \
  && rm -rf /var/cache/apk/* \
+ && nginx -v \
+ && supervisord -v \
  && mkdir -p \
           ./cache \
           ./logs \

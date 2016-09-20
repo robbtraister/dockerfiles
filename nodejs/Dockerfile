@@ -2,7 +2,8 @@ FROM robbtraister/base
 
 RUN apk add --update --no-cache \
             nodejs \
- && rm -rf /var/cache/apk/*
+ && rm -rf /var/cache/apk/* \
+ && node -v
 
 ENTRYPOINT ["node"]
 ONBUILD CMD ["."]
