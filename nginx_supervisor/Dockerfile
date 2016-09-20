@@ -1,8 +1,5 @@
 FROM robbtraister/base
 
-ENTRYPOINT ["supervisor", "-c"]
-CMD ["./supervisord.conf"]
-
 RUN apk add --update --no-cache \
             nginx \
             supervisor \
@@ -16,6 +13,9 @@ RUN apk add --update --no-cache \
  && ln -sf /dev/stdout ./logs/error.log
 
 ADD supervisord.conf ./
+
+ENTRYPOINT ["supervisor", "-c"]
+CMD ["./supervisord.conf"]
 
 ONBUILD ADD . ./
 

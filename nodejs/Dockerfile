@@ -1,11 +1,11 @@
 FROM robbtraister/base
 
-ENTRYPOINT ["node"]
-CMD ["."]
-
 RUN apk add --update --no-cache \
             nodejs \
  && rm -rf /var/cache/apk/*
+
+ENTRYPOINT ["node"]
+ONBUILD CMD ["."]
 
 ONBUILD ADD ./package.json ./
 ONBUILD RUN npm install --production \

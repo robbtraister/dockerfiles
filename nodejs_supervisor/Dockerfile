@@ -1,14 +1,14 @@
 FROM robbtraister/base
 
-ENTRYPOINT ["supervisord", "-c"]
-CMD ["./supervisord.conf"]
-
 RUN apk add --update --no-cache \
             nodejs \
             supervisor \
  && rm -rf /var/cache/apk/*
- 
+
 ADD supervisord.conf ./
+
+ENTRYPOINT ["supervisord", "-c"]
+CMD ["./supervisord.conf"]
 
 ONBUILD ADD ./package.json ./
 ONBUILD RUN npm install --production \
