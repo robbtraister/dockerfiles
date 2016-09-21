@@ -1,4 +1,4 @@
-FROM robbtraister/phantomjs-base
+FROM robbtraister/phantomjs_base
 
 RUN apk add --update --no-cache \
             supervisor \
