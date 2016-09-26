@@ -1,21 +1,22 @@
 FROM robbtraister/debian-phantomjs
 
 RUN apt-get update \
-    && apt-get install -y \
-                       python-pip \
-                       curl \
-                       rsync \
-                       xfonts-base \
-                       #ttf-mscorefonts-installer \
-    && apt-get clean \
-    && apt-get autoremove \
-    && rm -rf /var/lib/apt/lists/*
+ && apt-get upgrade -y
+
+RUN apt-get install -y \
+                    python-pip \
+                    rsync \
+                    xfonts-base \
+                    #ttf-mscorefonts-installer \
+ && apt-get clean all \
+ && apt-get autoremove \
+ && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /tmp/dockerize \
-    && curl -L https://github.com/larsks/dockerize/archive/84303318e70d4550334abadad2052a2415b06127.tar.gz \
-       | tar xvz -C /tmp/dockerize --strip-components=1 \
-    && cd /tmp/dockerize \
-    && pip install .
+ && curl -L https://github.com/larsks/dockerize/archive/84303318e70d4550334abadad2052a2415b06127.tar.gz \
+      | tar xvz -C /tmp/dockerize --strip-components=1 \
+ && cd /tmp/dockerize \
+ && pip install .
 
 
 RUN rm -rf /dockerized-phantomjs
@@ -36,8 +37,8 @@ RUN rm -rf \
            etc/group \
            etc/nsswitch.conf \
            etc/passwd \
- && tar --numeric-owner -zcf /phantomjs.tar.gz *
+ && tar --numeric-owner -jcf /phantomjs.tar.bz2 ./*
 
 VOLUME /target
 
-ENTRYPOINT cp /phantomjs.tar.gz /target/
+ENTRYPOINT cp /phantomjs.tar.bz2 /target/

@@ -1,5 +1,5 @@
 FROM robbtraister/base
 
-ADD phantomjs.tar.gz /
+ADD phantomjs.tar.bz2 /
 
 RUN phantomjs -v
