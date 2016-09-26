@@ -1,4 +1,4 @@
-FROM robbtraister/phantomjs_base
+FROM robbtraister/phantomjs-base
 
 ENTRYPOINT ["phantomjs"]
 ONBUILD CMD ["index.js"]
