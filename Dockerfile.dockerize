@@ -1,9 +1,12 @@
-FROM debian-phantomjs
+FROM debian
 
-RUN apt-get update \
- && apt-get upgrade -y
-
-RUN apt-get install -y \
+RUN apt-get update --fix-missing \
+ && apt-get upgrade -y \
+ && apt-get install -y \
+                    bzip2 \
+                    curl \
+                    libfontconfig \
+                    libfreetype6 \
                     python-pip \
                     rsync \
                     xfonts-base \
@@ -12,11 +15,22 @@ RUN apt-get install -y \
  && apt-get autoremove \
  && rm -rf /var/lib/apt/lists/*
 
+ENV DOCKERIZE_COMMIT="169532eba46757aca8002e1c9bb257079a739f75"
+
 RUN mkdir -p /tmp/dockerize \
- && curl -L https://github.com/larsks/dockerize/archive/84303318e70d4550334abadad2052a2415b06127.tar.gz \
+ && curl -L "https://github.com/larsks/dockerize/archive/${DOCKERIZE_COMMIT}.tar.gz" \
       | tar xvz -C /tmp/dockerize --strip-components=1 \
  && cd /tmp/dockerize \
- && pip install .
+ && pip install . \
+ && dockerize --version
+
+ENV PHANTOMJS_VERSION="2.1.1"
+
+RUN mkdir -p /usr/local/phantomjs \
+ && curl -L "https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-${PHANTOMJS_VERSION}-linux-x86_64.tar.bz2" \
+      | tar xvj -C /usr/local/phantomjs --strip-components=1 \
+ && ln -s "/usr/local/phantomjs/bin/phantomjs" /usr/bin/phantomjs \
+ && phantomjs -v
 
 
 RUN rm -rf /dockerized-phantomjs
