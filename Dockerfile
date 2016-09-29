@@ -8,8 +8,7 @@ RUN apk add --update --no-cache \
 WORKDIR /watcher
 
 ADD ./package.json ./
-RUN npm install --production \
- && npm cache clear
+RUN npm install --production
 
 ADD . ./
 
