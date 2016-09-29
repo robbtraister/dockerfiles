@@ -31,15 +31,9 @@ function stopChild() {
 
 function startChild(cmd, args, options) {
   process.stdout.write(`starting ${process.env.CMD}...`);
+  options = options || {};
+  options.stdio = 'inherit';
   child = child_process.spawn(cmd, args, options);
-  if (/^debug$/i.test(process.env.LOG_LEVEL)) {
-    child.stdout.on('data', (data) => {
-      process.stdout.write(data.toString());
-    });
-    child.stderr.on('data', (data) => {
-      process.stderr.write(data.toString());
-    });
-  }
   child.on('error', exitWithError);
   process.stdout.write('done\n');
   return child;
