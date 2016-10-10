@@ -18,7 +18,7 @@ ONBUILD ADD ./package.json ./
 ONBUILD RUN npm install --production \
          && npm cache clean
 
-ONBUILD ADD ./ ./
+ONBUILD ADD . ./
 
 ONBUILD WORKDIR ${WORKDIR}
 
