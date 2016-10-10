@@ -30,7 +30,7 @@ function stopChild() {
 
 
 function startChild(cmd, args, options) {
-  process.stdout.write(`starting ${process.env.CMD}...`);
+  process.stdout.write(`starting node...`);
   options = options || {};
   options.stdio = 'inherit';
   child = child_process.spawn(cmd, args, options);
@@ -43,7 +43,7 @@ function startChild(cmd, args, options) {
 gulp.task('start', function(){
   return stopChild()
     .then(() => {
-      return startChild(process.env.CMD, (process.env.ARGS || '').split('|'), {
+      return startChild('node', ['.'], {
           cwd: '/workdir/src',
           env: process.env
         });

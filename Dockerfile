@@ -5,6 +5,9 @@ RUN apk add --update --no-cache \
  && rm -rf /var/cache/apk/* \
  && node -v
 
+# Use cd since WORKDIR will be set to src directory later
+CMD cd /watcher && npm start
+
 WORKDIR /watcher
 
 ADD ./package.json ./
@@ -13,6 +16,9 @@ RUN npm install --production
 ADD ./gulpfile.js ./
 
 WORKDIR /workdir
-VOLUME /workdir/src
 
-CMD cd /watcher && npm run watch
+ONBUILD ADD ./package.json ./
+ONBUILD RUN npm install --production
+
+ONBUILD WORKDIR ./src
+ONBUILD VOLUME ./src
