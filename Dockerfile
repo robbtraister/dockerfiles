@@ -10,7 +10,7 @@ WORKDIR /watcher
 ADD ./package.json ./
 RUN npm install --production
 
-ADD . ./
+ADD ./gulpfile.js ./
 
 WORKDIR /workdir
 VOLUME /workdir/src
