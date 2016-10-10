@@ -8,11 +8,15 @@ RUN apk add --update --no-cache \
 ENTRYPOINT ["node"]
 ONBUILD CMD ["."]
 
+ONBUILD WORKDIR ./src
+
 ONBUILD ADD ./package.json ./
 ONBUILD RUN npm install --production \
-         && npm cache clear
+         && npm cache clean
 
 ONBUILD ADD . ./
+
+ONBUILD WORKDIR ${WORKDIR}
 
 ONBUILD RUN chown -R ${USER}:${USER} ./ \
          && chmod u=rwX,go= -R ./
