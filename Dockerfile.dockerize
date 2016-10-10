@@ -33,9 +33,9 @@ RUN mkdir -p /usr/local/phantomjs \
  && phantomjs -v
 
 
-RUN rm -rf /dockerized-phantomjs
+RUN rm -rf /phantomjs-dockerize
 
-WORKDIR /dockerized-phantomjs
+WORKDIR /phantomjs-dockerize
 
 RUN dockerize -n -o ./ \
               -e $(which phantomjs) \
