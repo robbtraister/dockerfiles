@@ -16,8 +16,6 @@ ONBUILD RUN npm install --production \
 
 ONBUILD ADD . ./
 
-ONBUILD WORKDIR ${WORKDIR}
-
 ONBUILD RUN chown -R ${USER}:${USER} ./ \
          && chmod u=rwX,go= -R ./
 
