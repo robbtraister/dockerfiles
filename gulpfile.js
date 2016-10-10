@@ -44,7 +44,7 @@ gulp.task('start', function(){
   return stopChild()
     .then(() => {
       return startChild(process.env.CMD, (process.env.ARGS || '').split('|'), {
-          cwd: '/workdir',
+          cwd: '/workdir/src',
           env: process.env
         });
     });
