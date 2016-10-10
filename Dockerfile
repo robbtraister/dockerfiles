@@ -12,11 +12,15 @@ ADD supervisord.conf ./
 ENTRYPOINT ["supervisord", "-c"]
 CMD ["./supervisord.conf"]
 
+WORKDIR ./src
+
 ONBUILD ADD ./package.json ./
 ONBUILD RUN npm install --production \
-         && npm cache clear
+         && npm cache clean
 
-ONBUILD ADD . ./
+ONBUILD ADD ./ ./
+
+ONBUILD WORKDIR ${WORKDIR}
 
 ONBUILD RUN chown -R ${USER}:${USER} ./ \
          && chmod u=rwX,go= -R ./
