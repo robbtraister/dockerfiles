@@ -6,7 +6,8 @@ RUN apk add --update --no-cache \
  && node -v
 
 ENTRYPOINT ["node"]
-ONBUILD CMD ["."]
+ONBUILD ENTRYPOINT []
+ONBUILD CMD npm start 2> /dev/null || node .
 
 ONBUILD ADD ./package.json ./
 ONBUILD RUN npm install --production \
