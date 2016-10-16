@@ -14,10 +14,17 @@ RUN apk add --update --no-cache \
  && ln -sf /dev/stdout ./logs/access.log \
  && ln -sf /dev/stdout ./logs/error.log
 
+WORKDIR /supervisor
+
 ADD supervisord.conf ./
 
-ENTRYPOINT ["supervisord", "-c"]
-CMD ["./supervisord.conf"]
+RUN chown -R ${USER}:${USER} ./ \
+ && chmod u=rwX,go= -R ./
+
+# Use cd since WORKDIR will be set to src directory later
+CMD cd /supervisor && supervisord
+
+WORKDIR /workdir
 
 ONBUILD ADD . ./
 
