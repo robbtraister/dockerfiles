@@ -43,8 +43,8 @@ function startChild(cmd, args, options) {
 gulp.task('start', function(){
   return stopChild()
     .then(() => {
-      return startChild('node', ['.'], {
-          cwd: '/workdir/src',
+      return startChild('nginx', ['-p', '/workdir', '-c', './src/nginx.conf', '-g', 'daemon off; pid ./nginx.pid;'], {
+          cwd: '/workdir',
           env: process.env
         });
     });
