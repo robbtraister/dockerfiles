@@ -7,10 +7,17 @@ RUN apk add --update --no-cache \
  && node -v \
  && supervisord -v
 
+WORKDIR /supervisor
+
 ADD supervisord.conf ./
 
-ENTRYPOINT ["supervisord", "-c"]
-CMD ["/workdir/supervisord.conf"]
+RUN chown -R ${USER}:${USER} ./ \
+ && chmod u=rwX,go= -R ./
+
+# Use cd since WORKDIR will be set to src directory later
+CMD cd /supervisor && supervisord
+
+WORKDIR /workdir
 
 ONBUILD ADD ./package.json ./
 ONBUILD RUN npm install --production \
