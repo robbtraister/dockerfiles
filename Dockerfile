@@ -5,10 +5,9 @@ RUN apk add --update --no-cache \
  && rm -rf /var/cache/apk/* \
  && nginx -v \
  && mkdir -p \
-          ./cache \
-          ./logs \
-          ./tmp \
- && ln -sf /dev/stdout /var/lib/nginx/logs/error.log \
+             ./cache \
+             ./logs \
+             ./tmp \
  && ln -sf /dev/stdout ./logs/access.log \
  && ln -sf /dev/stdout ./logs/error.log
 
