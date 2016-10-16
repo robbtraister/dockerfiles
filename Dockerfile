@@ -16,7 +16,7 @@ RUN apk add --update --no-cache \
 
 ADD supervisord.conf ./
 
-ENTRYPOINT ["supervisor", "-c"]
+ENTRYPOINT ["supervisord", "-c"]
 CMD ["./supervisord.conf"]
 
 ONBUILD ADD . ./
