@@ -1,34 +1,35 @@
 FROM robbtraister/base
 
 RUN apk add --update --no-cache \
+            nginx \
             nodejs \
  && rm -rf /var/cache/apk/* \
- && node -v
+ && nginx -v \
+ && node -v \
+ && chown -R ${USER}:${USER} /var/lib/nginx \
+ && mkdir -p \
+             ./logs \
+ && ln -sf /dev/stdout ./logs/access.log \
+ && ln -sf /dev/stdout ./logs/error.log
 
 # Use cd since WORKDIR will be set to src directory later
 CMD cd /watcher && npm start
 
 WORKDIR /watcher
 
-ADD ./package.json ./
+ADD . ./
 RUN npm install --production
-
-ADD ./gulpfile.js ./
 
 RUN chown -R ${USER}:${USER} ./ \
  && chmod u=rwX,go= -R ./
 
-WORKDIR /workdir
+WORKDIR /
 
-ONBUILD ADD ./package.json ./
-ONBUILD RUN npm install --production \
-         && npm cache clean
+ONBUILD VOLUME ./workdir
 
-ONBUILD VOLUME ./src
-
-ONBUILD RUN chown -R ${USER}:${USER} ./ \
-         && chmod u=rwX,go= -R ./
+ONBUILD RUN chown -R ${USER}:${USER} ./workdir \
+         && chmod u=rwX,go= -R ./workdir
 
 ONBUILD USER ${USER}
 
-ONBUILD WORKDIR ./src
+ONBUILD WORKDIR /workdir

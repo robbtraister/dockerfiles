@@ -43,7 +43,7 @@ function startChild(cmd, args, options) {
 gulp.task('start', function(){
   return stopChild()
     .then(() => {
-      return startChild('nginx', ['-p', '/workdir', '-c', './src/nginx.conf', '-g', 'daemon off; pid ./nginx.pid;'], {
+      return startChild('nginx', ['-p', './', '-c', './nginx.conf', '-g', 'daemon off; pid ./nginx.pid;'], {
           cwd: '/workdir',
           env: process.env
         });
@@ -52,5 +52,5 @@ gulp.task('start', function(){
 
 
 gulp.task('watch', ['start'], function(){
-  gulp.watch('/workdir/src/**/*', ['start']);
+  gulp.watch(['/workdir/**/*', '!/workdir/logs/**/*'], ['start']);
 });
