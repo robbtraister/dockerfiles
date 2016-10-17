@@ -13,7 +13,7 @@ function exitWithError() {
 
 function stopChild() {
   if (child) {
-    process.stdout.write(`stopping ${process.env.CMD}...`);
+    process.stdout.write(`stopping node...`);
     var result = new Promise(function(resolve, reject){
       child.on('close', () => {
         process.stdout.write('done\n');
