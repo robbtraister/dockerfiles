@@ -10,17 +10,15 @@ CMD cd /watcher && npm start
 
 WORKDIR /watcher
 
-ADD ./package.json ./
+ADD gulpfile.js package.json ./
 RUN npm install --production
-
-ADD ./gulpfile.js ./
 
 RUN chown -R ${USER}:${USER} ./ \
  && chmod u=rwX,go= -R ./
 
 WORKDIR /workdir
 
-ONBUILD ADD ./package.json ./
+ONBUILD ADD package.json ./
 ONBUILD RUN npm install --production \
          && npm cache clean
 
