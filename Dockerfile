@@ -9,7 +9,7 @@ ENTRYPOINT ["node"]
 ONBUILD ENTRYPOINT []
 ONBUILD CMD npm start 2> /dev/null || node .
 
-ONBUILD ADD ./package.json ./
+ONBUILD ADD package.json ./
 ONBUILD RUN npm install --production \
          && npm cache clean
 
