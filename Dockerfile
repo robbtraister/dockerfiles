@@ -15,8 +15,8 @@ ONBUILD RUN npm install --production \
 
 ONBUILD ADD . ./src
 
-ONBUILD RUN chown -R ${USER}:${USER} ./ \
-         && chmod u=rwX,go= -R ./
+ONBUILD RUN chown -R ${USER}:${USER} . \
+         && chmod u=rwX,go= -R .
 
 ONBUILD USER ${USER}
 
