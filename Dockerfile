@@ -11,8 +11,8 @@ WORKDIR /supervisor
 
 ADD supervisord.conf ./
 
-RUN chown -R ${USER}:${USER} ./ \
- && chmod u=rwX,go= -R ./
+RUN chown -R ${USER}:${USER} . \
+ && chmod u=rwX,go= -R .
 
 # Use cd since WORKDIR will be set to src directory later
 CMD cd /supervisor && supervisord
@@ -25,8 +25,8 @@ ONBUILD RUN npm install --production \
 
 ONBUILD ADD . ./src
 
-ONBUILD RUN chown -R ${USER}:${USER} ./ \
-         && chmod u=rwX,go= -R ./
+ONBUILD RUN chown -R ${USER}:${USER} . \
+         && chmod u=rwX,go= -R .
 
 ONBUILD USER ${USER}
 
