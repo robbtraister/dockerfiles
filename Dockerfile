@@ -13,8 +13,8 @@ WORKDIR /watcher
 ADD gulpfile.js package.json ./
 RUN npm install --production
 
-RUN chown -R ${USER}:${USER} ./ \
- && chmod u=rwX,go= -R ./
+RUN chown -R ${USER}:${USER} . \
+ && chmod u=rwX,go= -R .
 
 WORKDIR /workdir
 
@@ -24,8 +24,8 @@ ONBUILD RUN npm install --production \
 
 ONBUILD VOLUME ./src
 
-ONBUILD RUN chown -R ${USER}:${USER} ./ \
-         && chmod u=rwX,go= -R ./
+ONBUILD RUN chown -R ${USER}:${USER} . \
+         && chmod u=rwX,go= -R .
 
 ONBUILD USER ${USER}
 
