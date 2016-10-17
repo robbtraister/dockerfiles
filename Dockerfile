@@ -19,7 +19,7 @@ CMD cd /supervisor && supervisord
 
 WORKDIR /workdir
 
-ONBUILD ADD ./package.json ./
+ONBUILD ADD package.json ./
 ONBUILD RUN npm install --production \
          && npm cache clean
 
