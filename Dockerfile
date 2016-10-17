@@ -10,8 +10,8 @@ RUN apk add --update --no-cache \
  && ln -sf /dev/stdout ./logs/access.log \
  && ln -sf /dev/stdout ./logs/error.log
 
-ENTRYPOINT ["nginx", "-p", "./", "-c"]
-CMD ["./nginx.conf", "-g", "daemon off; pid ./nginx.pid;"]
+ENTRYPOINT ["nginx", "-g", "daemon off; pid ./nginx.pid;", "-p", "./", "-c"]
+CMD ["./nginx.conf"]
 
 ONBUILD ADD . ./
 
