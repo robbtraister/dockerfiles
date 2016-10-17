@@ -13,7 +13,7 @@ function exitWithError() {
 
 function stopChild() {
   if (child) {
-    process.stdout.write(`stopping ${process.env.CMD}...`);
+    process.stdout.write(`stopping nginx...`);
     var result = new Promise(function(resolve, reject){
       child.on('close', () => {
         process.stdout.write('done\n');
@@ -30,7 +30,7 @@ function stopChild() {
 
 
 function startChild(cmd, args, options) {
-  process.stdout.write(`starting node...`);
+  process.stdout.write(`starting nginx...`);
   options = options || {};
   options.stdio = 'inherit';
   child = child_process.spawn(cmd, args, options);
