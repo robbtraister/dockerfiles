@@ -1,11 +1,19 @@
-FROM alpine
+FROM robbtraister/base
 
-ENV USER="worker" \
-    WORKDIR="/workdir"
+RUN apk add --update --no-cache \
+            nodejs \
+ && rm -rf /var/cache/apk/* \
+ && node -v
 
-RUN apk update \
- && apk upgrade \
- && addgroup -S ${USER} \
- && adduser -S ${USER} -G ${USER}
+# Use cd since WORKDIR will be set to src directory later
+CMD cd /watcher && npm start
 
-WORKDIR ${WORKDIR}
+WORKDIR /watcher
+
+ADD gulpfile.js package.json ./
+RUN npm install --production
+
+RUN chown -R ${USER}:${USER} . \
+ && chmod u=rwX,go= -R .
+
+WORKDIR /workdir
