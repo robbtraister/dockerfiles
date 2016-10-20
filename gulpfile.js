@@ -46,7 +46,7 @@ function startChild(cmd, args, options) {
 gulp.task('start', function(){
   return stopChild()
     .then(() => startChild(process.env.PROCESS, process.env.ARGUMENTS.split('|'), {
-      cwd: process.env.CWD,
+      cwd: process.env.PROCESS_DIR,
       env: process.env
     }));
 });
