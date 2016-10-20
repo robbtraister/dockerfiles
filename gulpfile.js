@@ -9,7 +9,7 @@ var child = null;
 
 function stopChild() {
   if (child) {
-    logger.info(`stopping ${process.env.PROCESS}`);
+    logger.info(`Stopping ${process.env.PROCESS}`);
     var result = new Promise((resolve, reject) => {
       child.on('close', resolve);
       child.on('error', reject);
@@ -23,7 +23,7 @@ function stopChild() {
 
 
 function startChild(cmd, args, options) {
-  logger.info(`starting ${process.env.PROCESS}`);
+  logger.info(`Starting ${process.env.PROCESS}`);
   child = child_process.spawn(cmd, args, Object.assign(options || {}, {stdio: 'inherit'}));
   child.on('close', (code) => {
     if (code) {
