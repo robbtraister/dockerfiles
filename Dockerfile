@@ -6,6 +6,10 @@ RUN apk add --update --no-cache \
  && nginx -v \
  && chown -R ${USER}:${USER} /var/lib/nginx
 
+ENV PROCESS="nginx" \
+    ARGUMENTS="-p|./|-c|./nginx.conf|-g|daemon off; pid ./nginx.pid;" \
+    PROCESS_DIR="/workdir"
+
 CMD ln -sf /workdir/src/* /workdir \
  && cd /watcher && npm start
 
