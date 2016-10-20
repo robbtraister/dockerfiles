@@ -7,8 +7,10 @@ RUN apk add --update --no-cache \
 
 WORKDIR /watcher
 
-ADD gulpfile.js package.json ./
+ADD package.json ./
 RUN npm install --production
+
+ADD gulpfile.js logger.js ./
 
 WORKDIR /workdir
 

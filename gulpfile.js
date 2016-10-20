@@ -1,24 +1,17 @@
-var gulp = require('gulp');
 var child_process = require('child_process');
+var gulp = require('gulp');
+
+var logger = require('./logger')('watcher');
 
 
 var child = null;
 
 
-function exitWithError() {
-  console.log(arguments);
-  process.exit(-1);
-}
-
-
 function stopChild() {
   if (child) {
-    process.stdout.write(`stopping ${process.env.PROCESS}...`);
-    var result = new Promise(function(resolve, reject){
-      child.on('close', () => {
-        process.stdout.write('done\n');
-        resolve()
-      });
+    logger.info(`stopping ${process.env.PROCESS}`);
+    var result = new Promise((resolve, reject) => {
+      child.on('close', resolve);
       child.on('error', reject);
     });
     child.kill();
@@ -30,15 +23,14 @@ function stopChild() {
 
 
 function startChild(cmd, args, options) {
-  process.stdout.write(`starting ${process.env.PROCESS}...`);
-  options = options || {};
-  options.stdio = 'inherit';
-  child = child_process.spawn(cmd, args, options);
-  child.on('error', exitWithError);
-  child.on('close', () => {
+  logger.info(`starting ${process.env.PROCESS}`);
+  child = child_process.spawn(cmd, args, Object.assign(options || {}, {stdio: 'inherit'}));
+  child.on('close', (code) => {
+    if (code) {
+      logger.error('Server error');
+    }
     child = null;
   });
-  process.stdout.write('done\n');
   return child;
 }
 
@@ -52,6 +44,6 @@ gulp.task('start', function(){
 });
 
 
-gulp.task('watch', ['start'], function(){
+gulp.task('watch', ['start'], () => {
   gulp.watch('/workdir/src/**/*', ['start']);
 });
