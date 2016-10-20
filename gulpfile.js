@@ -48,8 +48,7 @@ gulp.task('start', function(){
     .then(() => startChild('nginx', ['-p', './', '-c', './nginx.conf', '-g', 'daemon off; pid ./nginx.pid;'], {
       cwd: '/workdir',
       env: process.env
-    }))
-    ;
+    }));
 });
 
 
