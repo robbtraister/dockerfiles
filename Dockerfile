@@ -12,12 +12,12 @@ RUN apk add --update --no-cache \
  && chown -R ${USER}:${USER} . \
  && chmod u=rwX,go= -R .
 
+ENV PROCESS="nginx" \
+     ARGUMENTS="-p|../|-c|./nginx.conf|-g|daemon off; pid ./nginx.pid;"
+
 USER ${USER}
 
 WORKDIR ./src
-
-ENV PROCESS="nginx" \
-    ARGUMENTS="-p|../|-c|./nginx.conf|-g|daemon off; pid ./nginx.pid;"
 
 CMD ln -sf /workdir/src/* /workdir \
  && cd /watcher \
