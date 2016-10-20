@@ -1,8 +1,7 @@
 FROM robbtraister/watcher
 
 ENV PROCESS="node" \
-    ARGUMENTS="." \
-    PROCESS_DIR="/workdir/src"
+    ARGUMENTS="."
 
 ONBUILD ADD package.json ./
 ONBUILD RUN npm install --production \
