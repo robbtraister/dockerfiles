@@ -5,9 +5,6 @@ RUN apk add --update --no-cache \
  && rm -rf /var/cache/apk/* \
  && node -v
 
-# Use cd since WORKDIR will be set to src directory later
-CMD cd /watcher && npm start
-
 WORKDIR /watcher
 
 ADD gulpfile.js package.json ./
@@ -17,3 +14,9 @@ RUN chown -R ${USER}:${USER} . \
  && chmod u=rwX,go= -R .
 
 WORKDIR /workdir
+
+VOLUME ./src
+
+# Use cd since WORKDIR will be /workdir/src
+CMD cd /watcher \
+ && npm start
