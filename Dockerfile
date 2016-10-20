@@ -10,9 +10,6 @@ WORKDIR /watcher
 ADD gulpfile.js package.json ./
 RUN npm install --production
 
-RUN chown -R ${USER}:${USER} . \
- && chmod u=rwX,go= -R .
-
 WORKDIR /workdir
 
 VOLUME ./src
