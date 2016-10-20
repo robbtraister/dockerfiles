@@ -22,3 +22,5 @@ rebuild nodejs-watcher
 rebuild phantomjs-base
 rebuild phantomjs
 rebuild phantomjs-supervisor
+
+git checkout master
