@@ -13,7 +13,7 @@ function exitWithError() {
 
 function stopChild() {
   if (child) {
-    process.stdout.write(`stopping node...`);
+    process.stdout.write('stopping node...');
     var result = new Promise(function(resolve, reject){
       child.on('close', () => {
         process.stdout.write('done\n');
@@ -30,11 +30,14 @@ function stopChild() {
 
 
 function startChild(cmd, args, options) {
-  process.stdout.write(`starting node...`);
+  process.stdout.write('starting node...');
   options = options || {};
   options.stdio = 'inherit';
   child = child_process.spawn(cmd, args, options);
   child.on('error', exitWithError);
+  child.on('close', () => {
+    child = null;
+  })
   process.stdout.write('done\n');
   return child;
 }
@@ -42,12 +45,10 @@ function startChild(cmd, args, options) {
 
 gulp.task('start', function(){
   return stopChild()
-    .then(() => {
-      return startChild('node', ['.'], {
-          cwd: '/workdir/src',
-          env: process.env
-        });
-    });
+    .then(() => startChild('node', ['.'], {
+      cwd: '/workdir/src',
+      env: process.env
+    }));
 });
 
 
