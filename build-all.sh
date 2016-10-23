@@ -20,7 +20,13 @@ rebuild nodejs
 rebuild nodejs-supervisor
 rebuild nodejs-watcher
 rebuild phantomjs-base
+#git add -A
+#git commit -m "updated build"
+#git push
 rebuild phantomjs
 rebuild phantomjs-supervisor
+#git checkout phantomjs-watcher
+#git merge phantomjs-base
+rebuild phantomjs-watcher
 
 git checkout master
