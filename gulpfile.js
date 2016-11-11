@@ -22,6 +22,22 @@ function stopChild() {
 }
 
 
+function initChild(cmd, args, options) {
+  if (cmd) {
+    logger.info(`Initializing ${process.env.PROCESS}`);
+    return new Promise((resolve, reject) => {
+      var cp = child_process.spawn(cmd, args, Object.assign(options || {}, {stdio: 'inherit'}));
+      cp.on('close', (code) => {
+        if (code) {
+          return reject(code);
+        }
+        resolve();
+      });
+    });
+  }
+}
+
+
 function startChild(cmd, args, options) {
   logger.info(`Starting ${process.env.PROCESS}`);
   child = child_process.spawn(cmd, args, Object.assign(options || {}, {stdio: 'inherit'}));
@@ -37,6 +53,10 @@ function startChild(cmd, args, options) {
 
 gulp.task('start', function(){
   return stopChild()
+    .then(() => initChild(process.env.INIT_PROCESS, process.env.INIT_ARGUMENTS.split('|'), {
+      cwd: '/workdir/src',
+      env: process.env
+    }))
     .then(() => startChild(process.env.PROCESS, process.env.ARGUMENTS.split('|'), {
       cwd: '/workdir/src',
       env: process.env
