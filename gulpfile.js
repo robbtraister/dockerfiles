@@ -53,11 +53,11 @@ function startChild(cmd, args, options) {
 
 gulp.task('start', function(){
   return stopChild()
-    .then(() => initChild(process.env.INIT_PROCESS, process.env.INIT_ARGUMENTS.split('|'), {
+    .then(() => initChild(process.env.INIT_PROCESS, (process.env.INIT_ARGUMENTS || '').split('|'), {
       cwd: '/workdir/src',
       env: process.env
     }))
-    .then(() => startChild(process.env.PROCESS, process.env.ARGUMENTS.split('|'), {
+    .then(() => startChild(process.env.PROCESS, (process.env.ARGUMENTS || '').split('|'), {
       cwd: '/workdir/src',
       env: process.env
     }));
