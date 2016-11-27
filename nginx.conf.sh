@@ -12,7 +12,7 @@ http {
 
 EOB
 
-IFS=$'\n' lines=($(cat "./ports" | grep -v '^\s*\#')))
+IFS=$'\n' lines=($(cat "./ports" | grep -v '^\s*\#'))
 for line in ${lines[@]}; do
   IFS=$' \t' values=($line)
   port=${values[0]}
