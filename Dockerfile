@@ -20,5 +20,4 @@ USER ${USER}
 
 VOLUME /workdir/src
 
-CMD ln -sf /workdir/src/ports /workdir/ports \
- && ./watch.sh
+CMD ./watch.sh

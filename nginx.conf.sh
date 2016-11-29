@@ -12,12 +12,17 @@ http {
 
 EOB
 
-IFS=$'\n' lines=($(cat "./ports" | grep -v '^\s*\#'))
-for line in ${lines[@]}; do
-  IFS=$' \t' values=($line)
-  port=${values[0]}
-  domains=${values[@]:1}
+IFS=$'\n'
+lines=(${PORTS})
+if [[ -f "./src/ports" ]]; then
+  lines=($(cat "./src/ports"))
+fi;
 
+for line in ${lines[@]}; do
+  if [[ $(echo $line | grep -v '^\s*\#') ]]; then
+    IFS=$' \t' values=($line)
+    port=${values[0]}
+    domains=${values[@]:1}
 cat <<EOB
   server {
     listen ${PORT:-8080};
@@ -32,6 +37,7 @@ cat <<EOB
     }
   }
 EOB
+  fi;
 done;
 
 cat <<EOB
