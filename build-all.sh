@@ -28,6 +28,6 @@ rebuild phantomjs-supervisor
 git checkout phantomjs-watcher
 git merge phantomjs-base
 rebuild phantomjs-watcher
-rebuild port-proxy
+rebuild etc-ports
 
 git checkout master
