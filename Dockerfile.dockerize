@@ -15,7 +15,7 @@ RUN apt-get update \
  && apt-get autoremove \
  && rm -rf /var/lib/apt/lists/*
 
-ENV DOCKERIZE_COMMIT="169532eba46757aca8002e1c9bb257079a739f75"
+ENV DOCKERIZE_COMMIT="master"
 
 RUN mkdir -p /tmp/dockerize \
  && curl -L "https://github.com/larsks/dockerize/archive/${DOCKERIZE_COMMIT}.tar.gz" \
